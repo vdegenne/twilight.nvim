@@ -73,6 +73,7 @@ end
 
 -- TODO: fooo
 function M.dim(buf, lnum)
+  vim.notify(buf, lnum)
   -- use extmarks directly so we can set the priority
   -- do a pcall instead to prevent spurious errors at the end of the doc
   pcall(vim.api.nvim_buf_set_extmark, buf, ns, lnum, 0, {
