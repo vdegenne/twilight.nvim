@@ -1,4 +1,5 @@
 local config = require("twilight.config")
+local iscope = require("mini.indentscope")
 
 local M = {}
 
@@ -73,7 +74,6 @@ end
 
 -- TODO: fooo
 function M.dim(buf, lnum)
-  vim.notify(buf, lnum)
   -- use extmarks directly so we can set the priority
   -- do a pcall instead to prevent spurious errors at the end of the doc
   pcall(vim.api.nvim_buf_set_extmark, buf, ns, lnum, 0, {
@@ -247,7 +247,11 @@ function M.update(win)
     return
   end
   local cursor = vim.api.nvim_win_get_cursor(win)
-  local from, to = M.get_context(buf, cursor[1] - 1)
+  -- vim.notify(vim.inspect(cursor))
+  local scope = iscope.get_scope()
+  -- local from, to = M.get_context(buf, cursor[1] - 1)
+  local from = scope.border.top
+  local to = scope.border.bottom + 1
 
   local dimmers = {}
   M.focus(win, from, to, dimmers)
